@@ -1,0 +1,4 @@
+D:\Sunset\SunsetEmail\SunsetEmail\bin\SunsetEmail.dll
+D:\Sunset\SunsetEmail\SunsetEmail\bin\SunsetEmail.pdb
+D:\Sunset\SunsetEmail\SunsetEmail\obj\Debug\SunsetEmail.dll
+D:\Sunset\SunsetEmail\SunsetEmail\obj\Debug\SunsetEmail.pdb
