@@ -45,6 +45,7 @@ namespace SunsetEmail
                 try
                 {
                     client.Send(msg);
+                    EmailDal.Save(txtEmail.Text.Trim());
                     lblMessage.Text = "Success...";
                     txtEmail.Text = "";
                     txtPassword.Text = "";
