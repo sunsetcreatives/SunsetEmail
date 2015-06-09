@@ -20,40 +20,48 @@ namespace SunsetEmail
         {
             if (txtEmail.Text.Trim() != string.Empty && txtPassword.Text.Trim() != string.Empty)
             {
-                SmtpClient client = new SmtpClient();
-                client.DeliveryMethod = SmtpDeliveryMethod.Network;
-                client.EnableSsl = true;
-                client.Host = "smtp.gmail.com";
-                client.Port = 587;
-
-                // setup Smtp authentication
-                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("sunsetcreatives@gmail.com", txtPassword.Text.Trim());
-                client.UseDefaultCredentials = false;
-                client.Credentials = credentials;
-
-                MailMessage msg = new MailMessage();
-                msg.From = new MailAddress("sunsetcreatives@gmail.com");
-                msg.To.Add(new MailAddress(txtEmail.Text.Trim()));
-
-                msg.Subject = "Web Designing";
-                msg.IsBodyHtml = true;
-                using (StreamReader reader = new StreamReader(Server.MapPath("~/EmailTemplate.htm")))
+                if (!EmailDal.IsEmailExist(txtEmail.Text.Trim()))
                 {
-                    msg.Body = reader.ReadToEnd();
-                }
+                    SmtpClient client = new SmtpClient();
+                    client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    client.EnableSsl = true;
+                    client.Host = "smtp.gmail.com";
+                    client.Port = 587;
 
-                try
-                {
-                    client.Send(msg);
-                    EmailDal.Save(txtEmail.Text.Trim());
-                    lblMessage.Text = "Success...";
-                    txtEmail.Text = "";
-                    txtPassword.Text = "";
+                    // setup Smtp authentication
+                    System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("sunsetcreatives@gmail.com", txtPassword.Text.Trim());
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = credentials;
+
+                    MailMessage msg = new MailMessage();
+                    msg.From = new MailAddress("sunsetcreatives@gmail.com");
+                    msg.To.Add(new MailAddress(txtEmail.Text.Trim()));
+
+                    msg.Subject = "Web Designing";
+                    msg.IsBodyHtml = true;
+                    using (StreamReader reader = new StreamReader(Server.MapPath("~/EmailTemplate.htm")))
+                    {
+                        msg.Body = reader.ReadToEnd();
+                    }
+
+                    try
+                    {
+                        client.Send(msg);
+                        EmailDal.Save(txtEmail.Text.Trim());
+                        lblMessage.Text = "Success...";
+                        txtEmail.Text = "";
+                        txtPassword.Text = "";
+                    }
+                    catch (Exception ex)
+                    {
+                        lblMessage.ForeColor = System.Drawing.Color.Red;
+                        lblMessage.Text = "Error occured..." + ex.Message;
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
                     lblMessage.ForeColor = System.Drawing.Color.Red;
-                    lblMessage.Text = "Error occured..." + ex.Message;
+                    lblMessage.Text = "Exists";
                 }
             }
         }

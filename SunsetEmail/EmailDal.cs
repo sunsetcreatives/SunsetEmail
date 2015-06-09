@@ -11,6 +11,11 @@ namespace SunsetEmail
         {
             SqlHelper.Opertions("INSERT INTO EmailAddress VALUES('" + email + "')");
         }
+
+        public static bool IsEmailExist(string email)
+        {
+            return SqlHelper.CheckHasRows("SELECT * FROM EmailAddress WHERE Email = '" + email + "'");
+        }
     }
 
     
